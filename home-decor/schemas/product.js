@@ -1,85 +1,106 @@
 export default {
-  name: 'product',
-  title: 'Product',
-  type: 'document',
+  name: "product",
+  title: "Product",
+  type: "document",
   fields: [
     {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
+      name: "title",
+      title: "Title",
+      type: "string",
     },
     {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
+      name: "slug",
+      title: "Slug",
+      type: "slug",
       options: {
-        source: 'title',
+        source: "title",
         maxLength: 96,
       },
     },
     {
-      title: 'Default variant',
-      name: 'defaultProductVariant',
-      type: 'productVariant',
-    },
-    {
-      title: 'Variants',
-      name: 'variants',
-      type: 'array',
+      title: "Tags",
+      name: "tags",
+      type: "array",
       of: [
         {
-          title: 'Variant',
-          type: 'productVariant',
-        },
-      ],
-    },
-    {
-      title: 'Tags',
-      name: 'tags',
-      type: 'array',
-      of: [
-        {
-          type: 'string',
+          type: "string",
         },
       ],
       options: {
-        layout: 'tags',
+        layout: "tags",
       },
     },
     {
-      name: 'vendor',
-      title: 'Vendor',
-      type: 'reference',
-      to: {type: 'vendor'},
+      title: "Weight (in Kilograms)",
+      name: "kilograms",
+      type: "number",
     },
     {
-      name: 'blurb',
-      title: 'Blurb',
-      type: 'localeString',
+      title: "Price",
+      name: "price",
+      type: "number",
     },
     {
-      name: 'categories',
-      title: 'Categories',
-      type: 'array',
+      title: "SKU",
+      name: "sku",
+      type: "string",
+    },
+    {
+      title: "Taxable",
+      name: "taxable",
+      type: "boolean",
+    },
+    {
+      name: "images",
+      title: "Images",
+      type: "array",
       of: [
         {
-          type: 'reference',
-          to: {type: 'category'},
+          type: "image",
+          options: {
+            hotspot: true,
+          },
+        },
+      ],
+    },
+    // {
+    //   title: "Bar code",
+    //   name: "barcode",
+    //   type: "barcode",
+    // },
+    {
+      name: "vendor",
+      title: "Vendor",
+      type: "reference",
+      to: { type: "vendor" },
+    },
+    {
+      name: "blurb",
+      title: "Blurb",
+      type: "localeString",
+    },
+    {
+      name: "categories",
+      title: "Categories",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: { type: "category" },
         },
       ],
     },
     {
-      name: 'body',
-      title: 'Body',
-      type: 'localeBlockContent',
+      name: "body",
+      title: "Body",
+      type: "blockContent",
     },
   ],
 
   preview: {
     select: {
-      title: 'title',
-      manufactor: 'manufactor.title',
-      media: 'defaultProductVariant.images[0]',
+      title: "title",
+      manufactor: "manufactor.title",
     },
   },
-}
+};
