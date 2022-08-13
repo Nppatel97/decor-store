@@ -36,6 +36,21 @@ export default {
       type: "number",
     },
     {
+      title: "Dimensions",
+      name: "dimensions",
+      type: "string",
+    },
+    {
+      title: "Finish",
+      name: "finish",
+      type: "string",
+    },
+    {
+      title: "Care Instructions",
+      name: "maintain",
+      type: "string",
+    },
+    {
       title: "Price",
       name: "price",
       type: "number",

@@ -1,4 +1,6 @@
 export interface Product {
+  [x: string]: TypedObject;
+  product: TypedObject;
   _id: string;
   title: string;
   slug: {
@@ -9,6 +11,15 @@ export interface Product {
   sku: string;
   taxable: boolean;
   images: [image];
+  dimensions: string;
+  finish: string;
+  vendor: {
+    title: string;
+    logo: image;
+    _id: string;
+  };
+  maintain: string;
+  // tags: [string];
   body: object;
 }
 
