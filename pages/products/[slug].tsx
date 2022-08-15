@@ -10,6 +10,11 @@ interface Props {
 }
 
 function Post({ product }: Props) {
+  const addToCartHandler = async (e: any) => {
+    const valuez = e.target.id;
+    console.log(valuez);
+  };
+
   return (
     <main className="max-w-7xl mx-auto">
       <Header />
@@ -45,9 +50,13 @@ function Post({ product }: Props) {
             </div>
           </div>
           <div>
-            <button className="my-4 md:my-1 mr-1 inline-flex items-center py-2 px-4 text-sm font-medium text-center text-black bg-gray-100 rounded-full hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 transition duration-300 ease-in-out">
+            <button
+              onClick={addToCartHandler}
+              className="my-4 md:my-1 mr-1 inline-flex items-center py-2 px-4 text-sm font-medium text-center text-black bg-gray-100 rounded-full hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 transition duration-300 ease-in-out"
+            >
               <span className="flex space-x-2 items-center">
-                <span>Add to Cart</span> <FaOpencart className="text-xl" />
+                <span id={product._id}>Add to Cart</span>{" "}
+                <FaOpencart id={product._id} className="text-xl" />
               </span>
             </button>
           </div>

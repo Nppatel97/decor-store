@@ -1,15 +1,27 @@
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import { BsArrowRight } from "react-icons/bs";
 import { FaOpencart } from "react-icons/fa";
 import Header from "../components/Header";
 import client, { urlFor } from "../lib/config";
 import { Product } from "../typings";
+import { Store } from "../utils/Store";
 
 interface Props {
   products: [Product];
 }
 export default function Products({ products }: Props) {
+  const { state, dispatch } = useContext(Store);
+  const { cartItem } = state;
+
+  const addToCartHandler = async (e: any) => {
+    const valuex = await e.target.id;
+    console.log(valuex);
+
+    dispatch({ type: "ADD_TO_CART", payload: valuex });
+
+    console.log(state);
+  };
   return (
     <div className="max-w-7xl mx-auto">
       <Header />
@@ -44,9 +56,13 @@ export default function Products({ products }: Props) {
                   </span>
                 </Link>
 
-                <button className="my-1 mr-1 inline-flex items-center py-2 px-4 text-sm font-medium text-center text-black bg-gray-100 rounded-full hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 transition duration-300 ease-in-out">
+                <button
+                  onClick={addToCartHandler}
+                  className="my-1 mr-1 inline-flex items-center py-2 px-4 text-sm font-medium text-center text-black bg-gray-100 rounded-full hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 transition duration-300 ease-in-out"
+                >
                   <span className="flex space-x-2 items-center">
-                    <span>Add to Cart</span> <FaOpencart className="text-xl" />
+                    <span id={prod._id}>Add to Cart</span>{" "}
+                    <FaOpencart id={prod._id} className="text-xl" />
                   </span>
                 </button>
               </div>
