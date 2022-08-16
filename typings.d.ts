@@ -26,3 +26,12 @@ export interface Product {
 export interface image {
   asset: object;
 }
+
+export interface CartProduct {
+  _id: string;
+  title: string;
+  price: number;
+  sku: string;
+  quantity: number;
+  image: string;
+}

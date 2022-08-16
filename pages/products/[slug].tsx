@@ -1,20 +1,30 @@
 import Header from "../../components/Header";
 import sanityClient, { urlFor, config } from "../../lib/config";
-import { Product } from "../../typings";
+import { CartProduct, Product } from "../../typings";
 import { GetStaticProps } from "next";
 import { FaOpencart } from "react-icons/fa";
 import PortableText from "react-portable-text";
+import { useContext } from "react";
+import { CartContext } from "../../utils/store";
 
 interface Props {
   product: Product;
 }
 
 function Post({ product }: Props) {
-  const addToCartHandler = async (e: any) => {
-    const valuez = e.target.id;
-    console.log(valuez);
-  };
+  const cartCtx = useContext(CartContext);
 
+  const addItemHandler = async () => {
+    const productInCart: CartProduct = {
+      _id: product._id,
+      title: product.title,
+      sku: product.sku,
+      image: urlFor(product.images[0]).url(),
+      price: product.price,
+      quantity: 0,
+    };
+    cartCtx.addToCart(productInCart);
+  };
   return (
     <main className="max-w-7xl mx-auto">
       <Header />
@@ -51,7 +61,7 @@ function Post({ product }: Props) {
           </div>
           <div>
             <button
-              onClick={addToCartHandler}
+              onClick={addItemHandler}
               className="my-4 md:my-1 mr-1 inline-flex items-center py-2 px-4 text-sm font-medium text-center text-black bg-gray-100 rounded-full hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 transition duration-300 ease-in-out"
             >
               <span className="flex space-x-2 items-center">

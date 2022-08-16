@@ -4,23 +4,25 @@ import { BsArrowRight } from "react-icons/bs";
 import { FaOpencart } from "react-icons/fa";
 import Header from "../components/Header";
 import client, { urlFor } from "../lib/config";
-import { Product } from "../typings";
-import { Store } from "../utils/Store";
+import { CartProduct, Product } from "../typings";
+import { CartContext } from "../utils/store";
 
 interface Props {
   products: [Product];
 }
 export default function Products({ products }: Props) {
-  const { state, dispatch } = useContext(Store);
-  const { cartItem } = state;
+  const cartCtx = useContext(CartContext);
 
-  const addToCartHandler = async (e: any) => {
-    const valuex = await e.target.id;
-    console.log(valuex);
-
-    dispatch({ type: "ADD_TO_CART", payload: valuex });
-
-    console.log(state);
+  const addItemHandler = async (product: Product) => {
+    const productInCart: CartProduct = {
+      _id: product._id,
+      title: product.title,
+      sku: product.sku,
+      image: urlFor(product.images[0]).url(),
+      price: product.price,
+      quantity: 1,
+    };
+    cartCtx.addToCart(productInCart);
   };
   return (
     <div className="max-w-7xl mx-auto">
@@ -57,7 +59,9 @@ export default function Products({ products }: Props) {
                 </Link>
 
                 <button
-                  onClick={addToCartHandler}
+                  onClick={() => {
+                    addItemHandler(prod);
+                  }}
                   className="my-1 mr-1 inline-flex items-center py-2 px-4 text-sm font-medium text-center text-black bg-gray-100 rounded-full hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 transition duration-300 ease-in-out"
                 >
                   <span className="flex space-x-2 items-center">

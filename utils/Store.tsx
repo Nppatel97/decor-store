@@ -1,33 +1,48 @@
-import Cookies from "js-cookie";
-import { createContext, useReducer } from "react";
+import React, { useState } from "react";
+import { CartProduct } from "../typings";
 
-const initialState = {
-  id: "",
-  addedToCart: false,
-  cart: {
-    cartItems: Cookies.get("cartItems")
-      ? JSON.parse(Cookies.get("cartItems")!)
-      : [],
-  },
+type Cart = {
+  items: CartProduct[];
+  addToCart: (item: CartProduct) => void;
+  removeFromCart: (i: number) => void;
 };
 
-export const Store = createContext<any>(initialState);
+type Props = {
+  children: React.ReactNode;
+};
 
-function reducer(state: any, action: any) {
-  switch (action.type) {
-    case "ADD_TO_CART":
-      return {
-        ...state,
-        addedToCart: true,
-        id: action.payload,
-      };
-    default:
-      return state;
-  }
-}
+export const CartContext = React.createContext<Cart>({
+  items: [],
+  addToCart: (item: CartProduct) => {},
+  removeFromCart: (i: number) => {},
+});
 
-export function StoreProvider(props: any) {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const value = { state, dispatch };
-  return <Store.Provider value={value}>{props.children}</Store.Provider>;
-}
+const CartContextProvider = (props: Props) => {
+  const [items, setItems] = useState<CartProduct[]>([]);
+
+  const addToCartHandler = (item: CartProduct) => {
+    setItems((prevItems) => {
+      return [...prevItems, item];
+    });
+  };
+
+  const removeFromCartHandler = (i: number) => {
+    setItems((prevItems) => {
+      return prevItems.filter((el, pi) => pi !== i);
+    });
+  };
+
+  const contextValue: Cart = {
+    items,
+    addToCart: addToCartHandler,
+    removeFromCart: removeFromCartHandler,
+  };
+
+  return (
+    <CartContext.Provider value={contextValue}>
+      {props.children}
+    </CartContext.Provider>
+  );
+};
+
+export default CartContextProvider;
