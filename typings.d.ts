@@ -20,7 +20,7 @@ export interface Product {
   };
   maintain: string;
   // tags: [string];
-  body: object;
+  body: [object];
 }
 
 export interface image {

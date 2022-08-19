@@ -1,12 +1,9 @@
-import Link from "next/link";
-import React, { useContext, useState } from "react";
-import { FaCross, FaOpencart, FaSink } from "react-icons/fa";
+import React, { useContext } from "react";
+import { FaOpencart } from "react-icons/fa";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
-import { CartContext } from "../utils/store";
+import { CartContext, StateContext } from "../utils/store";
 import { IoMdRemove } from "react-icons/io";
-import { MdChair } from "react-icons/md";
-import { RiPlantFill } from "react-icons/ri";
 
 export default function Header() {
   // Router
@@ -15,16 +12,8 @@ export default function Header() {
   // Next Auth
   const { data: session } = useSession();
 
-  // States to show/hide logout and cart
-  const [btnSwitch, setBtnSwitch] = useState([false, false]);
-  // Logout Handler
-  const showLogOutHandler = () => {
-    setBtnSwitch([!btnSwitch[0], false]);
-  };
-  // Cart Handler
-  const showCartHandler = () => {
-    setBtnSwitch([false, !btnSwitch[1]]);
-  };
+  // Handle header sub menus (Cart and Profile)
+  const stateCtx = useContext(StateContext);
   // Populate cart
   const cartCtx = useContext(CartContext);
 
@@ -53,12 +42,12 @@ export default function Header() {
           <ul className="flex space-x-5">
             <li
               className="pt-1 text-3xl text-gray-800 cursor-pointer"
-              onClick={showCartHandler}
+              onClick={stateCtx.showCartHandler}
             >
               <FaOpencart />
             </li>
-            {btnSwitch[1] && (
-              <div className="absolute top-16 right-6 py-5 rounded-md bg-gray-50 border-2 border-gray-200 text-sm">
+            {stateCtx.btnSwitch[1] && (
+              <div className="absolute top-16 right-6 pt-5 rounded-md bg-gray-50 border-2 border-gray-200 text-sm">
                 {cartCtx.items.length !== 0 ? (
                   cartCtx.items.map((el, i) => (
                     <li
@@ -74,14 +63,17 @@ export default function Header() {
                             />
                           </div>
                           <div>
-                            <b>{el.title}</b>{" "}
+                            <b>
+                              {el.quantity} {el.title}
+                              {el.quantity > 1 ? "s" : ""}
+                            </b>{" "}
                             <p className="text-sm">${el.price}.00</p>{" "}
                           </div>
                         </div>
                       }{" "}
                       <span
                         onClick={() => {
-                          cartCtx.removeFromCart(i);
+                          cartCtx.removeFromCart(el);
                         }}
                         className="ml-4 p-1 m-1 cursor-pointer rounded-full bg-red-300 text-red-600"
                       >
@@ -91,25 +83,37 @@ export default function Header() {
                   ))
                 ) : (
                   <div className="text-7xl p-8 text-gray-400 flex items-center justify-center flex-col">
-                    <span className="text-9xl rotate-45 text-gray-300 translate-y-5">
-                      <MdChair />
-                    </span>
-                    {/* <span className="text-3xl -rotate-45 translate-x-6">
-                      <RiPlantFill />
-                    </span>
-                    <span className="text-3xl rotate-45 -translate-y-14 -translate-x-6">
-                      <FaSink />
-                    </span> */}
-
                     <FaOpencart />
                     <i className="text-3xl">Let's Shop!</i>
                   </div>
                 )}
+                <div
+                  className={`px-5 mt-4 flex space-x-5 justify-between text-gray-800 border-t border-gray-200 pt-4 ${
+                    cartCtx.items.length === 0 ? "hidden" : ""
+                  }`}
+                >
+                  <div>
+                    Total Price: <b>${cartCtx.totalPrice}.00</b>{" "}
+                  </div>
+                  <div>
+                    Total Items: <b>{cartCtx.totalQty}</b>{" "}
+                  </div>
+                </div>
+                <div className="mt-4 p-1 flex space-x-5 justify-between">
+                  <button
+                    className={`disabled:bg-gray-500 bg-gray-800 rounded-md w-full h-full p-3 font-bold text-white hover:bg-gray-700 transition ease-in-out duration-200 ${
+                      cartCtx.items.length === 0 ? "cursor-not-allowed" : ""
+                    }`}
+                    disabled={cartCtx.items.length === 0}
+                  >
+                    Checkout
+                  </button>
+                </div>
               </div>
             )}
             {/* </li> */}
             <span className="absolute top-3 rounded-full px-2 bg-gray-200 text-sm">
-              {cartCtx.items.length}
+              {cartCtx.totalQty}
             </span>
             <li className="pt-1 flex items-center">
               <span>
@@ -125,7 +129,7 @@ export default function Header() {
                   }`}
                   src={`${`${session?.user?.image}`}`}
                   alt=""
-                  onClick={showLogOutHandler}
+                  onClick={stateCtx.logOutHandler}
                 />
               }
             </li>
@@ -136,7 +140,7 @@ export default function Header() {
             >
               Sign Up
             </li>
-            {btnSwitch[0] && (
+            {stateCtx.btnSwitch[0] && (
               <li
                 onClick={() => signOut()}
                 className="absolute cursor-pointer text-black bg-gray-50 border-2 border-gray-100 px-8 py-2 rounded-md top-16 right-6"

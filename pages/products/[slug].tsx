@@ -3,9 +3,10 @@ import sanityClient, { urlFor, config } from "../../lib/config";
 import { CartProduct, Product } from "../../typings";
 import { GetStaticProps } from "next";
 import { FaOpencart } from "react-icons/fa";
+import { BiPlus, BiMinus } from "react-icons/bi";
 import PortableText from "react-portable-text";
 import { useContext } from "react";
-import { CartContext } from "../../utils/store";
+import { CartContext, StateContext } from "../../utils/store";
 
 interface Props {
   product: Product;
@@ -14,14 +15,14 @@ interface Props {
 function Post({ product }: Props) {
   const cartCtx = useContext(CartContext);
 
-  const addItemHandler = async () => {
+  const addItemHandler = async (quantity: number) => {
     const productInCart: CartProduct = {
       _id: product._id,
       title: product.title,
       sku: product.sku,
       image: urlFor(product.images[0]).url(),
       price: product.price,
-      quantity: 0,
+      quantity,
     };
     cartCtx.addToCart(productInCart);
   };
@@ -60,8 +61,25 @@ function Post({ product }: Props) {
             </div>
           </div>
           <div>
+            <div className="flex items-center py-4">
+              <div
+                className="py-1 px-3 cursor-pointer"
+                onClick={() => cartCtx.changeQuantity(false)}
+              >
+                <BiMinus />
+              </div>
+              <div className="py-1 px-3 border border-gray-100">
+                {cartCtx.qty !== 0 ? cartCtx.qty : 1}
+              </div>
+              <div
+                className="py-1 px-3 cursor-pointer"
+                onClick={() => cartCtx.changeQuantity(true)}
+              >
+                <BiPlus />
+              </div>
+            </div>
             <button
-              onClick={addItemHandler}
+              onClick={() => addItemHandler(cartCtx.qty)}
               className="my-4 md:my-1 mr-1 inline-flex items-center py-2 px-4 text-sm font-medium text-center text-black bg-gray-100 rounded-full hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 transition duration-300 ease-in-out"
             >
               <span className="flex space-x-2 items-center">

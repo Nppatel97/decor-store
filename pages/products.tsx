@@ -5,7 +5,7 @@ import { FaOpencart } from "react-icons/fa";
 import Header from "../components/Header";
 import client, { urlFor } from "../lib/config";
 import { CartProduct, Product } from "../typings";
-import { CartContext } from "../utils/store";
+import { CartContext, StateContext } from "../utils/store";
 
 interface Props {
   products: [Product];
@@ -13,7 +13,7 @@ interface Props {
 export default function Products({ products }: Props) {
   const cartCtx = useContext(CartContext);
 
-  const addItemHandler = async (product: Product) => {
+  const addItemHandler = (product: Product) => {
     const productInCart: CartProduct = {
       _id: product._id,
       title: product.title,
@@ -23,6 +23,7 @@ export default function Products({ products }: Props) {
       quantity: 1,
     };
     cartCtx.addToCart(productInCart);
+    console.log(cartCtx.totalPrice);
   };
   return (
     <div className="max-w-7xl mx-auto">

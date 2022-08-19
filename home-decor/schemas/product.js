@@ -111,11 +111,11 @@ export default {
       type: "blockContent",
     },
   ],
-
   preview: {
     select: {
       title: "title",
-      manufactor: "manufactor.title",
+      manufactor: "vendor.title",
+      // media: "images[0].asset",
     },
   },
 };

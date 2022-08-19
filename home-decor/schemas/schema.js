@@ -8,6 +8,7 @@ import blockContent from "./blockContent";
 import category from "./category";
 import product from "./product";
 import vendor from "./vendor";
+import user from "./user";
 
 import localeString from "./locale/String";
 import localeText from "./locale/Text";
@@ -25,6 +26,7 @@ export default createSchema({
     product,
     vendor,
     category,
+    user,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
     blockContent,
