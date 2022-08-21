@@ -4,7 +4,7 @@ import { BiMinus, BiPlus } from "react-icons/bi";
 import { BsShieldLockFill } from "react-icons/bs";
 import Header from "../components/Header";
 import { CartProduct } from "../typings";
-import { CartContext } from "../utils/store";
+import { CartContext } from "../components/store";
 
 export default function checkout() {
   const cartCtx = useContext(CartContext);

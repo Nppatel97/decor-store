@@ -6,7 +6,7 @@ import { FaOpencart } from "react-icons/fa";
 import { BiPlus, BiMinus } from "react-icons/bi";
 import PortableText from "react-portable-text";
 import { useContext } from "react";
-import { CartContext, StateContext } from "../../utils/store";
+import { CartContext, StateContext } from "../../components/store";
 
 interface Props {
   product: Product;

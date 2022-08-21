@@ -5,7 +5,7 @@ import { FaOpencart } from "react-icons/fa";
 import Header from "../components/Header";
 import client, { urlFor } from "../lib/config";
 import { CartProduct, Product } from "../typings";
-import { CartContext, StateContext } from "../utils/store";
+import { CartContext, StateContext } from "../components/store";
 
 interface Props {
   products: [Product];

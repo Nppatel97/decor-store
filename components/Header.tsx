@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { FaOpencart } from "react-icons/fa";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
-import { CartContext, StateContext } from "../utils/store";
+import { CartContext, StateContext } from "./store";
 import { IoMdRemove } from "react-icons/io";
 
 export default function Header() {
