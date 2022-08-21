@@ -1,6 +1,6 @@
 # Home Decor E-commerce Store Demo
 
-👋 Welcome to my Home Decor store! This demo is made using [Sanity CMS](https://www.sanity.io/), [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) and [Next.js](https://nextjs.org/). A solid stack to work with 🔥 in my opinion!
+👋 Welcome to my Home Decor store! This demo is made using [Sanity CMS](https://www.sanity.io/), [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) and [Next.js](https://nextjs.org/). A solid stack to build amazing applications with in my opinion! 🔥
 
 ## All Technologies used
 
@@ -9,7 +9,8 @@
 3. [TypeScript](https://www.typescriptlang.org/)
 4. [Tailwind CSS](https://tailwindcss.com/)
 5. [Sanity CMS](https://www.sanity.io/)
-6. [React Icons](https://react-icons.github.io/react-icons)
+6. [Stripe](https://stripe.com/en-ca)
+7. [React Icons](https://react-icons.github.io/react-icons)
 
 ### To run it locally
 
