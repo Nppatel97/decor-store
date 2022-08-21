@@ -5,6 +5,7 @@ import { BsShieldLockFill } from "react-icons/bs";
 import Header from "../components/Header";
 import { CartProduct } from "../typings";
 import { CartContext } from "../components/store";
+import { loadStripe } from "@stripe/stripe-js";
 
 export default function checkout() {
   const cartCtx = useContext(CartContext);
@@ -15,6 +16,27 @@ export default function checkout() {
       quantity: 1,
     };
     cartCtx.addToCart(productInCart);
+  };
+
+  const checkoutHandler = async () => {
+    const stripePromise = loadStripe(
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+    );
+    const { sessionId } = await fetch("/api/checkout/session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cartCtx.items),
+    })
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+    const stripe = await stripePromise;
+    // console.log(stripe);
+    const { error } = await stripe!.redirectToCheckout({
+      sessionId,
+    });
+    console.log(error);
   };
 
   return (
@@ -119,6 +141,7 @@ export default function checkout() {
           </p>
           <div className="absolute bottom-4 w-full left-0 px-4">
             <button
+              onClick={checkoutHandler}
               className={`disabled:bg-gray-500 text-lg bg-gray-700 w-full py-2 items-center rounded-md text-white ${
                 cartCtx.items.length === 0 ? "cursor-not-allowed" : ""
               }`}
