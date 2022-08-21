@@ -20,3 +20,7 @@
 4. run `npm install` inside _home-decor_ folder to install Sanity related dependencies.
 5. d back to the main folder (_decor-store_). Run `npm run dev`.
 6. The server should be live on http://localhost:3000/.
+
+# Check out the live demo!
+
+https://decor-store-fs0a2qks9-nppatel97.vercel.app/
