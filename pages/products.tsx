@@ -23,7 +23,6 @@ export default function Products({ products }: Props) {
       quantity: 1,
     };
     cartCtx.addToCart(productInCart);
-    console.log(cartCtx.totalPrice);
   };
   return (
     <div className="max-w-7xl mx-auto">
