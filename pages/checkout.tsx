@@ -20,7 +20,7 @@ export default function checkout() {
 
   const checkoutHandler = async () => {
     const stripePromise = loadStripe(
-      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+      `${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!}`
     );
     const { sessionId } = await fetch("/api/checkout/session", {
       method: "POST",

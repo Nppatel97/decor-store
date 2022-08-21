@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { CartProduct } from "../../../typings";
 const stripe = new Stripe(
-  process.env.STRIPE_SECRET_KEY ||
+  `${process.env.STRIPE_SECRET_KEY}` ||
     "sk_test_51Jx6l5DYTptazhzCUXTU7zHm3ROSlH824Erst690MRguQ39Kzsn5K25lxUPqBuwI6T3yD3mwk1NNWSwm9Z2He63j00BjiDuaTR",
   {
     apiVersion: "2022-08-01",
