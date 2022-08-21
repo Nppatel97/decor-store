@@ -9,6 +9,7 @@ type Cart = {
   totalQty: number;
   addToCart: (item: CartProduct) => void;
   removeFromCart: (item: CartProduct) => void;
+  removeFromCheckout: (item: CartProduct) => void;
   changeQuantity: (operation: boolean) => void;
 };
 
@@ -24,8 +25,19 @@ export const CartContext = React.createContext<Cart>({
   totalQty: 0,
   addToCart: (item: CartProduct) => {},
   removeFromCart: (item: CartProduct) => {},
+  removeFromCheckout: (item: CartProduct) => {},
   changeQuantity: (operation: boolean) => {},
 });
+
+// const item0 = {
+//   _id: "510bf681-7313-4fd5-a9f2-0d8e7af02f47",
+//   title: "Kitchen Sink",
+//   sku: "1221-436-765",
+//   image:
+//     "https://cdn.sanity.io/images/ie8fa606/production/8c0f54fcff4e46a284a12798a2d0d0d67bca95c7-1920x1277.jpg",
+//   price: 2799,
+//   quantity: 1,
+// };
 
 // Cart Context Provider
 export const CartContextProvider = (props: Props) => {
@@ -46,6 +58,7 @@ export const CartContextProvider = (props: Props) => {
     setQty(1);
     setTotalPrice((prevPrice) => prevPrice + item.price * item.quantity);
     setTotalQty((prevQty) => prevQty + item.quantity);
+
     setItems((prevItems) => {
       if (prevItems.find((el) => el._id === item._id)?.quantity == null) {
         return [...prevItems, item];
@@ -80,6 +93,22 @@ export const CartContextProvider = (props: Props) => {
     });
   };
 
+  const removeFromCheckout = (item: CartProduct) => {
+    setItems((prevItems) => {
+      if (prevItems.find((el) => el._id === item._id)) {
+        setTotalPrice((prevPrice) =>
+          prevPrice - item.price * item.quantity < 0
+            ? 0
+            : prevPrice - item.price * item.quantity
+        );
+        setTotalQty((prevQty) =>
+          prevQty - item.quantity < 0 ? 0 : prevQty - item.quantity
+        );
+      }
+      return prevItems.filter((el) => el._id !== item._id);
+    });
+  };
+
   const contextValue: Cart = {
     items,
     totalPrice,
@@ -88,6 +117,7 @@ export const CartContextProvider = (props: Props) => {
     addToCart: addToCartHandler,
     removeFromCart: removeFromCartHandler,
     changeQuantity: changeQuantityHandler,
+    removeFromCheckout,
   };
 
   return (
@@ -100,23 +130,33 @@ export const CartContextProvider = (props: Props) => {
 
 // ---- Context for misc. states
 export const StateContext = React.createContext({
-  btnSwitch: [false, false],
-  logOutHandler: () => {},
-  showCartHandler: () => {},
+  btnSwitch: [false, false, false],
+  logOutHandler: (isOpen: boolean) => {},
+  showCartHandler: (isOpen: boolean) => {},
 });
 
 export const StateContextProvider = (props: Props) => {
   // States to show/hide logout and cart
-  const [btnSwitch, setBtnSwitch] = useState<boolean[]>([false, false]);
+  // [logout, cart, checkout item update thing]
+  const [btnSwitch, setBtnSwitch] = useState<boolean[]>([false, false, false]);
 
   // Logout Handler
-  const logOutHandler = () => {
-    setBtnSwitch([!btnSwitch[0], false]);
+  const logOutHandler = (isOpen: boolean) => {
+    if (isOpen) {
+      setBtnSwitch([false, false]);
+    } else {
+      setBtnSwitch([!btnSwitch[0], false]);
+    }
   };
   // Cart Handler
-  const showCartHandler = () => {
-    setBtnSwitch([false, !btnSwitch[1]]);
+  const showCartHandler = (isOpen: boolean) => {
+    if (isOpen) {
+      setBtnSwitch([false, false, false]);
+    } else {
+      setBtnSwitch([false, !btnSwitch[1]]);
+    }
   };
+
   const contextValue = {
     btnSwitch,
     logOutHandler,

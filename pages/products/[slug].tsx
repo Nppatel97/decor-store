@@ -60,7 +60,7 @@ function Post({ product }: Props) {
               </div>
             </div>
           </div>
-          <div>
+          <div className="md:flex md:space-x-5 items-center">
             <div className="flex items-center py-4">
               <div
                 className="py-1 px-3 cursor-pointer"

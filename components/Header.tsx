@@ -21,6 +21,15 @@ export default function Header() {
     <>
       {/* Navbaar */}
       <div className="z-50 flex space-x-5 px-5 justify-between items-center sticky top-0 bg-white">
+        <div
+          onClick={() => {
+            stateCtx.logOutHandler(true);
+            stateCtx.showCartHandler(true);
+          }}
+          className={`z-40 w-screen fixed top-0 left-0 h-screen bg-black opacity-30 ${
+            stateCtx.btnSwitch[0] || stateCtx.btnSwitch[1] ? "" : "hidden"
+          }`}
+        ></div>
         {/* Logo and Menu */}
         <div className="flex space-x-5 items-center">
           <img
@@ -32,9 +41,30 @@ export default function Header() {
             alt="Logo"
           />
           <ul className="hidden md:flex space-x-5 ">
-            <li>Home</li>
-            <li>Products</li>
-            <li>About Us</li>
+            <li
+              className="cursor-pointer"
+              onClick={() => {
+                router.push("/");
+              }}
+            >
+              Home
+            </li>
+            <li
+              className="cursor-pointer"
+              onClick={() => {
+                router.push("/products");
+              }}
+            >
+              Products
+            </li>
+            <li
+              className="cursor-pointer"
+              onClick={() => {
+                router.push("/");
+              }}
+            >
+              About Us
+            </li>
           </ul>
         </div>
         {/* Cart and Login */}
@@ -42,12 +72,12 @@ export default function Header() {
           <ul className="flex space-x-5">
             <li
               className="pt-1 text-3xl text-gray-800 cursor-pointer"
-              onClick={stateCtx.showCartHandler}
+              onClick={() => stateCtx.showCartHandler(false)}
             >
               <FaOpencart />
             </li>
             {stateCtx.btnSwitch[1] && (
-              <div className="absolute top-16 right-6 pt-5 rounded-md bg-gray-50 border-2 border-gray-200 text-sm">
+              <div className="z-50 absolute top-16 right-6 pt-5 rounded-md bg-gray-50 border-2 border-gray-200 text-sm">
                 {cartCtx.items.length !== 0 ? (
                   cartCtx.items.map((el, i) => (
                     <li
@@ -101,6 +131,11 @@ export default function Header() {
                 </div>
                 <div className="mt-4 p-1 flex space-x-5 justify-between">
                   <button
+                    onClick={() => {
+                      stateCtx.showCartHandler(true);
+                      stateCtx.logOutHandler(true);
+                      router.push("/checkout");
+                    }}
                     className={`disabled:bg-gray-500 bg-gray-800 rounded-md w-full h-full p-3 font-bold text-white hover:bg-gray-700 transition ease-in-out duration-200 ${
                       cartCtx.items.length === 0 ? "cursor-not-allowed" : ""
                     }`}
@@ -129,12 +164,12 @@ export default function Header() {
                   }`}
                   src={`${`${session?.user?.image}`}`}
                   alt=""
-                  onClick={stateCtx.logOutHandler}
+                  onClick={() => stateCtx.logOutHandler(false)}
                 />
               }
             </li>
             <li
-              className={`rounded-full bg-gray-800 text-white px-4 pt-1 pb-2 cursor-pointer ${
+              className={`rounded-full bg-gray-800 text-white px-2 md:px-4 md:pt-1 md:pb-2 py-2 cursor-pointer ${
                 session ? "hidden" : ""
               }`}
             >
@@ -143,7 +178,7 @@ export default function Header() {
             {stateCtx.btnSwitch[0] && (
               <li
                 onClick={() => signOut()}
-                className="absolute cursor-pointer text-black bg-gray-50 border-2 border-gray-100 px-8 py-2 rounded-md top-16 right-6"
+                className="z-50 absolute cursor-pointer text-black bg-gray-50 border-2 border-gray-100 px-8 py-2 rounded-md top-16 right-6"
               >
                 Log Out
               </li>
