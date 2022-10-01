@@ -35,7 +35,7 @@ export default function Products({ products }: Props) {
           >
             <img
               key={i}
-              className="group-hover:scale-105 transition duration-200 ease-in-out min-h-[56%]"
+              className="group-hover:scale-105 transition duration-200 ease-in-out min-h-[53%]"
               src={urlFor(prod.images[0]).url()}
               alt=""
             />
