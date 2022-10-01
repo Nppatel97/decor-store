@@ -27,15 +27,15 @@ export default function Products({ products }: Props) {
   return (
     <div className="max-w-7xl mx-auto">
       <Header />
-      <div className="p-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div className="p-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 justify-center sm:justify-left">
         {products.map((prod, i) => (
           <div
             key={i}
-            className="group max-w-sm bg-white hover:shadow-md overflow-hidden flex flex-col justify-between"
+            className="group lg:max-w-sm bg-white hover:shadow-md overflow-hidden flex flex-col justify-between"
           >
             <img
               key={i}
-              className="group-hover:scale-105 transition duration-200 ease-in-out"
+              className="group-hover:scale-105 transition duration-200 ease-in-out min-h-[56%]"
               src={urlFor(prod.images[0]).url()}
               alt=""
             />
